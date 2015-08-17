@@ -3,6 +3,8 @@ package facultyDataBase;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by maximgrozniy on 22.07.15.
@@ -13,9 +15,11 @@ public class InformaticFacultyDataBase {
 
     private void initialization(String name){
         try{
+
+            connection = null;
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + name);
-            sDao = new StudentDao(getConnection());
+
         }catch(ClassNotFoundException e){
             System.out.println("Не знайшли драйвер JDBC");
             e.printStackTrace();
@@ -29,13 +33,45 @@ public class InformaticFacultyDataBase {
     public Connection getConnection(){
         return this.getConnection();
     }
+
     public void addStudent(StudentEntity studentEntity){
         sDao.addStudent(studentEntity);
 
 }
 
+    //    Розробити базу даних факультету інформатики.
+    //
+    //    БД має містити: студентів, викладачів, курси.
+    //
+    //    Написати заповнення інформації, пошук і видалення.
+
     public static void main(String[] args){
         InformaticFacultyDataBase studentDataBase = new InformaticFacultyDataBase();
 
+        studentDataBase.initialization("testDB.db");
+
+
+        StudentDao studentDao = new StudentDao(studentDataBase.connection);
+        studentDao.insert("леся", "леся");
+        studentDao.insert("петя", "петя");
+        studentDao.insert("маша", "маша");
+
+
+
+        List <StudentEntity> students =  new ArrayList<StudentEntity>(studentDao.findAll());
+
+        for (StudentEntity student : students) {
+            System.out.println(student.getName() + student.getSurname());
+        }
+
+        studentDao.delete("петя");
+
+
+
+        List <StudentEntity> students1 =  new ArrayList<StudentEntity>(studentDao.findAll());
+
+        for (StudentEntity student : students1) {
+            System.out.println(student.getName() + student.getSurname());
+        }
     }
 }
