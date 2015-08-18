@@ -101,6 +101,27 @@ public class CourseDao implements DAO <CourseEntity> {
     }
 
     @Override
+    public boolean insert(CourseEntity entity) {
+        boolean isInsert = false;
+
+        try{
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO StudentEntity(name, duration) VALUES (?, ?)");
+
+            statement.setString(1, entity.getName());
+            statement.setString(2, entity.getDuration());
+            int result = statement.executeUpdate();
+            statement.close();
+            isInsert = true;
+        }catch (SQLException e){
+            System.out.println("Не вірний SQL запит на вставку");
+            e.printStackTrace();
+        }
+
+
+        return isInsert;
+    }
+
+    @Override
     public boolean insert(String name, String duration) {
         boolean isInsert = false;
 

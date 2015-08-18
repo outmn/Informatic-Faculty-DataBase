@@ -103,6 +103,27 @@ public class LecturerDao implements DAO<LecturerEntity>{
     }
 
     @Override
+    public boolean insert(LecturerEntity entity) {
+        boolean isInsert = false;
+
+        try{
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO StudentEntity(name, surname) VALUES (?, ?)");
+
+            statement.setString(1, entity.getName());
+            statement.setString(2, entity.getSurname());
+            int result = statement.executeUpdate();
+            statement.close();
+            isInsert = true;
+        }catch (SQLException e){
+            System.out.println("Не вірний SQL запит на вставку");
+            e.printStackTrace();
+        }
+
+
+        return isInsert;
+    }
+
+    @Override
     public boolean insert(String name, String surname) {
         boolean isInsert = false;
 

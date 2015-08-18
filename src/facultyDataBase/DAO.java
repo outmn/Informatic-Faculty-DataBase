@@ -10,6 +10,7 @@ public interface DAO <T> {
     List<T> getAll();
     List<T> getById(int id);
     List<T> getByName(String name);
+    boolean insert(T entity);
     boolean insert(String firstParameter, String secondParameter);
     boolean update(T entity);
     boolean delete(T entity);

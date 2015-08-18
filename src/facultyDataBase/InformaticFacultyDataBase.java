@@ -11,7 +11,10 @@ import java.util.List;
  */
 public class InformaticFacultyDataBase {
     private Connection connection;
-    private StudentDao sDao;
+    private StudentDao studentDao;
+    private LecturerDao lecturerDao;
+    private StudentDao courseDao;
+
 
     private void initialization(String name){
         try{
@@ -35,7 +38,7 @@ public class InformaticFacultyDataBase {
     }
 
     public void addStudent(StudentEntity studentEntity){
-        sDao.addStudent(studentEntity);
+        studentDao.insert(studentEntity);
 
 }
 
