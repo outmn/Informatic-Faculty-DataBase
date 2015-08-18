@@ -43,38 +43,55 @@ public class InformaticFacultyDataBase {
 }
 
     //    Розробити базу даних факультету інформатики.
-    //
     //    БД має містити: студентів, викладачів, курси.
-    //
     //    Написати заповнення інформації, пошук і видалення.
 
     public static void main(String[] args){
-        InformaticFacultyDataBase studentDataBase = new InformaticFacultyDataBase();
+        InformaticFacultyDataBase informaticFacultyDataBase = new InformaticFacultyDataBase();
 
-        studentDataBase.initialization("testDB.db");
-
-
-        StudentDao studentDao = new StudentDao(studentDataBase.connection);
-        studentDao.insert("леся", "леся");
-        studentDao.insert("петя", "петя");
-        studentDao.insert("маша", "маша");
+        informaticFacultyDataBase.initialization("InformaticFacultyDataBase.db");
 
 
+        StudentDao studentDao = new StudentDao(informaticFacultyDataBase.connection);
+        LecturerDao lecturerDao = new LecturerDao(informaticFacultyDataBase.connection);
+        CourseDao courseDao = new CourseDao(informaticFacultyDataBase.connection);
 
-        List <StudentEntity> students =  new ArrayList<StudentEntity>(studentDao.findAll());
+        studentDao.insert("Леся", "Украинка");
+        studentDao.insert("Тарас", "Шевченко");
+        studentDao.insert("Иван", "Франко");
+
+        lecturerDao.insert("Петр", "Мазепа");
+        lecturerDao.insert("Петр", "Сагайдачный");
+        lecturerDao.insert("Леонид", "Черновецкий");
+
+        courseDao.insert("Java", "2 месяца");
+        courseDao.insert("Swift", "4 месяца");
+        courseDao.insert("C", "1 месяц");
+        courseDao.insert("Machine learning", "2 месяца");
+
+
+
+        List <StudentEntity> students =  new ArrayList<StudentEntity>(studentDao.getAll());
 
         for (StudentEntity student : students) {
-            System.out.println(student.getName() + student.getSurname());
+            System.out.println(student.getName() + " " + student.getSurname());
         }
 
-        studentDao.delete("петя");
+        System.out.println();
 
 
+        List <LecturerEntity> lecturers =  new ArrayList<LecturerEntity>(lecturerDao.getAll());
 
-        List <StudentEntity> students1 =  new ArrayList<StudentEntity>(studentDao.findAll());
+        for (LecturerEntity lecturer : lecturers) {
+            System.out.println(lecturer.getName() + " " + lecturer.getSurname());
+        }
 
-        for (StudentEntity student : students1) {
-            System.out.println(student.getName() + student.getSurname());
+        System.out.println();
+
+        List <CourseEntity> courses =  new ArrayList<CourseEntity>(courseDao.getAll());
+
+        for (CourseEntity course : courses) {
+            System.out.println(course.getName() + " " + course.getDuration());
         }
     }
 }
