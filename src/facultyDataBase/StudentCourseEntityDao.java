@@ -5,40 +5,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by maximgrozniy on 18.08.15.
+ * Created by maximgrozniy on 19.08.15.
  */
-public class CourseDao implements DAO <CourseEntity> {
+public class StudentCourseEntityDao {
+
     private Connection connection;
 
-    public CourseDao(Connection connection){
+    public StudentCourseEntityDao(Connection connection){
         this.connection = connection;
         initialization();
     }
     private void initialization(){
         try{
-            PreparedStatement course = connection.prepareStatement(CourseEntity.COURSE_TABLE_CREATE);
-            int result = course.executeUpdate();
+            PreparedStatement studentCourse = connection.prepareStatement(StudentCourseEntity.STUDENTCOURSE_TABLE_CREATE);
+            int result = studentCourse.executeUpdate();
         }catch (SQLException e){
             System.out.println("Не вірний SQL запит");
             e.printStackTrace();
         }
     }
 
-    @Override
-    public List<CourseEntity> getAll() {
-        List <CourseEntity> listOfCourses = new ArrayList<CourseEntity>();
+
+    public List<StudentCourseEntity> getAll() {
+        List <StudentCourseEntity> listOfCourseStudent = new ArrayList<StudentCourseEntity>();
 
         try{
             Statement st = connection.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM CourseEntity");
+            ResultSet res = st.executeQuery("SELECT * FROM StudentCourseEntity");
 
             while (res.next()) {
-                CourseEntity courseEntity = new CourseEntity();
-                courseEntity.setId_course(res.getInt("id"));
-                courseEntity.setName(res.getString("name"));
-                courseEntity.setDuration(res.getString("duration"));
+                StudentCourseEntity courseStudentEntity = new StudentCourseEntity();
+                courseStudentEntity.setId_StudentCourseEntity(res.getInt("id"));
+                courseStudentEntity.setId_student(res.getInt("id_student"));
+                courseStudentEntity.setId_course(res.getInt("id_course"));
 
-                listOfCourses.add(courseEntity);
+                listOfCourseStudent.add(courseStudentEntity);
             }
             res.close();
             st.close();
@@ -47,23 +48,23 @@ public class CourseDao implements DAO <CourseEntity> {
             e.printStackTrace();
         }
 
-        return listOfCourses;
+        return listOfCourseStudent;
     }
 
-    @Override
-    public List<CourseEntity> getById(int id) {
-        List <CourseEntity> listOfCourses = new ArrayList<CourseEntity>();
+
+    public List<StudentCourseEntity> getByStudent(StudentEntity entity) {
+        List <StudentEntity> listOfCourseStudent = new ArrayList<StudentEntity>();
 
         try{
             Statement st = connection.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM CourseEntity WHERE id = " + id + "");
+            ResultSet res = st.executeQuery("SELECT * FROM StudentEntity WHERE id = " + id + "");
 
-            CourseEntity courseEntity = new CourseEntity();
-            courseEntity.setId_course(res.getInt("id"));
-            courseEntity.setName(res.getString("name"));
-            courseEntity.setDuration(res.getString("duration"));
+            StudentEntity studentEntity = new StudentEntity();
+            studentEntity.setId_student(res.getInt("id"));
+            studentEntity.setName(res.getString("name"));
+            studentEntity.setSurname(res.getString("surname"));
 
-            listOfCourses.add(courseEntity);
+            listOfCourseStudent.add(studentEntity);
 
             res.close();
             st.close();
@@ -72,23 +73,23 @@ public class CourseDao implements DAO <CourseEntity> {
             e.printStackTrace();
         }
 
-        return listOfCourses;
+        return listOfCourseStudent;
     }
 
     @Override
-    public List<CourseEntity> getByName(String surname) {
-        List <CourseEntity> listOfCourses = new ArrayList<CourseEntity>();
+    public List<StudentEntity> getByName(String surname) {
+        List <StudentEntity> listOfStudent = new ArrayList<StudentEntity>();
 
         try{
             Statement st = connection.createStatement();
-            ResultSet res = st.executeQuery("SELECT * FROM CourseEntity WHERE surname = " + surname +"");
+            ResultSet res = st.executeQuery("SELECT * FROM StudentEntity WHERE surname = " + surname +"");
 
-            CourseEntity courseEntity = new CourseEntity();
-            courseEntity.setId_course(res.getInt("id"));
-            courseEntity.setName(res.getString("name"));
-            courseEntity.setDuration(res.getString("duration"));
+            StudentEntity studentEntity = new StudentEntity();
+            studentEntity.setId_student(res.getInt("id"));
+            studentEntity.setName(res.getString("name"));
+            studentEntity.setSurname(res.getString("surname"));
 
-            listOfCourses.add(courseEntity);
+            listOfStudent.add(studentEntity);
 
             res.close();
             st.close();
@@ -97,39 +98,18 @@ public class CourseDao implements DAO <CourseEntity> {
             e.printStackTrace();
         }
 
-        return listOfCourses;
+        return listOfStudent;
     }
 
     @Override
-    public boolean insert(CourseEntity entity) {
+    public boolean insert(String name, String surname) {
         boolean isInsert = false;
 
         try{
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO CourseEntity(name, duration) VALUES (?, ?)");
-
-            statement.setString(1, entity.getName());
-            statement.setString(2, entity.getDuration());
-            int result = statement.executeUpdate();
-            statement.close();
-            isInsert = true;
-        }catch (SQLException e){
-            System.out.println("Не вірний SQL запит на вставку");
-            e.printStackTrace();
-        }
-
-
-        return isInsert;
-    }
-
-    @Override
-    public boolean insert(String name, String duration) {
-        boolean isInsert = false;
-
-        try{
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO CourseEntity(name, duration) VALUES (?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO StudentEntity(name, surname) VALUES (?, ?)");
 
             statement.setString(1, name);
-            statement.setString(2, duration);
+            statement.setString(2, surname);
             int result = statement.executeUpdate();
             statement.close();
             isInsert = true;
@@ -143,15 +123,36 @@ public class CourseDao implements DAO <CourseEntity> {
     }
 
     @Override
-    public boolean update(CourseEntity entity) {
+    public boolean insert(StudentEntity entity) {
+        boolean isInsert = false;
+
+        try{
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO StudentEntity(name, surname) VALUES (?, ?)");
+
+            statement.setString(1, entity.getName());
+            statement.setString(2, entity.getSurname());
+            int result = statement.executeUpdate();
+            statement.close();
+            isInsert = true;
+        }catch (SQLException e){
+            System.out.println("Не вірний SQL запит на вставку");
+            e.printStackTrace();
+        }
+
+
+        return isInsert;
+    }
+
+    @Override
+    public boolean update(StudentEntity entity) {
         boolean isUpdated = false;
 
         try{
-            PreparedStatement statement = connection.prepareStatement("UPDATE CourseEntity SET name = ?, duration = ? WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE StudentEntity SET name = ?, surname = ? WHERE id = ?");
 
             statement.setString(1, entity.getName());
-            statement.setString(2, entity.getDuration());
-            statement.setInt(3, entity.getId_course());
+            statement.setString(2, entity.getSurname());
+            statement.setInt(3, entity.getId_student());
 
             int result = statement.executeUpdate();
             statement.close();
@@ -166,13 +167,13 @@ public class CourseDao implements DAO <CourseEntity> {
     }
 
     @Override
-    public boolean delete(CourseEntity entity) {
+    public boolean delete(StudentEntity entity) {
         boolean isDelete = false;
 
         try{
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM CourseEntity WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM StudentEntity WHERE id = ?");
 
-            statement.setInt(1, entity.getId_course());
+            statement.setInt(1, entity.getId_student());
 
             int result = statement.executeUpdate();
             statement.close();
@@ -191,7 +192,7 @@ public class CourseDao implements DAO <CourseEntity> {
         boolean isDelete = false;
 
         try{
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM CourseEntity WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM StudentEntity WHERE id = ?");
 
             statement.setInt(1, id);
 
@@ -208,13 +209,13 @@ public class CourseDao implements DAO <CourseEntity> {
     }
 
     @Override
-    public boolean delete(String duration) {
+    public boolean delete(String surname) {
         boolean isDelete = false;
 
         try{
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM CourseEntity WHERE duration = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM StudentEntity WHERE surname = ?");
 
-            statement.setString(1, duration);
+            statement.setString(1, surname);
 
             int result = statement.executeUpdate();
             statement.close();
