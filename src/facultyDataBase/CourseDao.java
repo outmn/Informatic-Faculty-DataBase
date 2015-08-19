@@ -16,7 +16,7 @@ public class CourseDao implements DAO <CourseEntity> {
     }
     private void initialization(){
         try{
-            PreparedStatement course = connection.prepareStatement(LecturerEntity.LECTURER_TABLE_CREATE);
+            PreparedStatement course = connection.prepareStatement(CourseEntity.COURSE_TABLE_CREATE);
             int result = course.executeUpdate();
         }catch (SQLException e){
             System.out.println("Не вірний SQL запит");
