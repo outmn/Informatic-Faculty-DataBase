@@ -62,33 +62,14 @@ public class InformaticFacultyDataBase {
         StudentDao studentDao = new StudentDao(informaticFacultyDataBase.connection);
         LecturerDao lecturerDao = new LecturerDao(informaticFacultyDataBase.connection);
         CourseDao courseDao = new CourseDao(informaticFacultyDataBase.connection);
+        StudentCourseEntityDao studentCourseEntityDao = new StudentCourseEntityDao(informaticFacultyDataBase.connection);
 
-//        studentDao.insert("Леся", "Украинка");
-//        studentDao.insert("Тарас", "Шевченко");
-//        studentDao.insert("Иван", "Франко");
-//
-//        lecturerDao.insert("Петр", "Мазепа");
-//        lecturerDao.insert("Петр", "Сагайдачный");
-//        lecturerDao.insert("Леонид", "Черновецкий");
-//
-//        courseDao.insert("Java", "2 месяца");
-//        courseDao.insert("Swift", "4 месяца");
-//        courseDao.insert("C", "1 месяц");
-//        courseDao.insert("Machine learning", "2 месяца");
 
-//        courseDao.delete(5);
-//        courseDao.delete(6);
-//        courseDao.delete(7);
-//        courseDao.delete(8);
-//        courseDao.delete(9);
-//        courseDao.delete(10);
-//        courseDao.delete(11);
-//        courseDao.delete(12);
-//        courseDao.delete(13);
-//        courseDao.delete(14);
-//        courseDao.delete(15);
-//        courseDao.delete(16);
 
+
+
+
+        System.out.println("Вывод данных таблиц:");
 
         List <StudentEntity> students =  new ArrayList<StudentEntity>(studentDao.getAll());
 
@@ -112,5 +93,28 @@ public class InformaticFacultyDataBase {
         for (CourseEntity course : courses) {
             System.out.println(course.getId_course() + " " + course.getName() + " " + course.getDuration());
         }
+
+//        studentCourseEntityDao.insert(students.get(0), courses.get(0));
+//        studentCourseEntityDao.insert(students.get(0), courses.get(1));
+//        studentCourseEntityDao.insert(students.get(0), courses.get(2));
+//        studentCourseEntityDao.insert(students.get(1), courses.get(0));
+//        studentCourseEntityDao.insert(students.get(2), courses.get(0));
+//        studentCourseEntityDao.insert(students.get(3), courses.get(3));
+//        studentCourseEntityDao.insert(students.get(4), courses.get(0));
+//        studentCourseEntityDao.insert(students.get(5), courses.get(1));
+//        studentCourseEntityDao.insert(students.get(6), courses.get(0));
+//        studentCourseEntityDao.insert(students.get(7), courses.get(2));
+//        studentCourseEntityDao.insert(students.get(8), courses.get(3));
+//        studentCourseEntityDao.insert(students.get(9), courses.get(0));
+//        studentCourseEntityDao.insert(students.get(10), courses.get(2));
+
+        System.out.println();
+
+        List <StudentCourseEntity> courses_students =  new ArrayList<StudentCourseEntity>(studentCourseEntityDao.getAll());
+
+        for (StudentCourseEntity course : courses_students) {
+            System.out.println(course.getId_StudentCourseEntity() + " " + course.getId_course() + " " + course.getId_student());
+        }
+
     }
 }

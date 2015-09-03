@@ -35,6 +35,10 @@ public class StudentCourseEntity {
 
     private static String tableName = "StudentCourseEntity";
 
+    public static String getTableName() {
+        return tableName;
+    }
+
     public final static String STUDENTCOURSE_TABLE_CREATE = "create table if not exists " + tableName + " ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'id_student' int, 'id_course' int);";
 
 }
